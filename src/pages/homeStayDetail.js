@@ -302,14 +302,20 @@ function HomeStayDetail() {
             if (response?.code === 1000) {
                 response = response?.data
                 bookingResponse = {
-                    bookingId: response?.bookingId,
-                    qrContent: response.qrCode,
-                    bankInfo: response?.bankInfo,
-                    amount: response?.amount,
-                    url: response?.url,
-                    from: `${moment(from).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY HH:mm')}`,
-                    to: `${moment(to).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY HH:mm')}`,
-                    expired: momentAdd(moment(new Date()).tz('Asia/Ho_Chi_Minh')).add(360, 'minutes')
+                  bookingId: response?.bookingId,
+                  qrContent: response.qrContent,
+                  bankInfo: response?.bankInfo,
+                  amount: response?.amount,
+                  url: response?.url,
+                  from: `${moment(from)
+                    .tz("Asia/Ho_Chi_Minh")
+                    .format("DD/MM/YYYY HH:mm")}`,
+                  to: `${moment(to)
+                    .tz("Asia/Ho_Chi_Minh")
+                    .format("DD/MM/YYYY HH:mm")}`,
+                  expired: momentAdd(
+                    moment(new Date()).tz("Asia/Ho_Chi_Minh")
+                  ).add(360, "minutes"),
                 };
                 setBookingResult(bookingResponse);
                 intervalQueryBooking(response?.bookingId);
@@ -952,7 +958,15 @@ function HomeStayDetail() {
                                                             <CountdownTimer initialTime={timeCountDownQrCode} onClosePopup={timeoutQrCode} />
                                                             <p style={{ fontSize: '14px', color: 'red', marginBottom: '10px', marginTop: '-10px' }}> * LƯU Ý: Mã thanh toán chỉ có hiệu lực trong 10 PHÚT.</p>
                                                             <span style={{ fontSize: '14px', color: 'red' }}> * Mã QR chỉ cung cấp cho thanh toán lần này, vui lòng không sao lưu sử dụng cho những lần thanh toán sau.</span>
-                                                    <PayOS bookingdata={bookingResult} />
+                                                   {console.log(bookingResult)}
+                                                    <QRCode
+                                                        value={bookingResult?.qrContent}
+                                                        size={256}
+                                                        bgColor="transparent"
+                                                        fgColor="#000000"
+                                                        level="Q"
+                                                        includeMargin={true}
+                                                    />
                                                    
                                                 </div>
                                             </Col>
